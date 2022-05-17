@@ -15,8 +15,8 @@
           <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 10, currentPage: p }" (click)="preencherCamposParaEdicao(usuario)">
             <th scope="row">{{ usuario.id }}</th>
             <td>{{ usuario.nome }}</td>
-            <td>{{ usuario.funcao }}</td>
-            <td>{{ usuario.setor }}</td>
+            <td>{{ usuario.funcao.nome }}</td>
+            <td>{{ usuario.setor.nome }}</td>
           </tr>
         </tbody>
       </table>

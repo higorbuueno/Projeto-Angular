@@ -11,48 +11,48 @@ export class UsuariosComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder) { }
 
   usuarios: {
     id: number;
     nome: string;
-    funcao: string;
-    setor: string;
+    funcao: { id: number, nome: string };
+    setor: { id: number, nome: string };
   }[] = [
-    { id: 1, nome: 'Higor', funcao: 'CEO', setor: 'Administrativo' },
-    { id: 2, nome: 'Maicon', funcao: 'Gerente', setor: 'Produção' },
-    { id: 3, nome: 'Igor Doné', funcao: 'Auxiliar de Limpeza', setor: 'Geral' },
-    { id: 4, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 5, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 6, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 7, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 8, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 9, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 10, nome: 'João JPK', funcao: 'Cozinheiro', setor: 'Refeitório' },
-    { id: 11, nome: 'Paginação', funcao: 'Paginação', setor: 'Paginação' },
-    { id: 12, nome: 'Paginação', funcao: 'Paginação', setor: 'Paginação' },
-    { id: 13, nome: 'Paginação', funcao: 'Paginação', setor: 'Paginação' },
-  ];
+      { id: 1, nome: 'Higor', funcao: { id: 1, nome: 'CEO' }, setor: { id: 1, nome: 'Admistrativo' } },
+      { id: 2, nome: 'Maicon', funcao: { id: 2, nome: 'Gerente' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 3, nome: 'Igor Doné', funcao: { id: 2, nome: 'Gerente' }, setor: { id: 3, nome: 'Geral' } },
+      { id: 4, nome: 'João JPK', funcao: { id: 4, nome: 'Cozinheiro' }, setor: { id: 4, nome: 'Refeitório' } },
+      { id: 5, nome: 'João JPK', funcao: { id: 4, nome: 'Cozinheiro' }, setor: { id: 4, nome: 'Refeitório' } },
+      { id: 6, nome: 'João JPK', funcao: { id: 2, nome: 'Gerente' }, setor: { id: 1, nome: 'Admistrativo' } },
+      { id: 7, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 8, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 9, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 10, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 11, nome: 'a', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 12, nome: 'a', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+      { id: 13, nome: 'a', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
+    ];
 
   setores: {
     id: number;
     nome: string;
   }[] = [
-    { id: 1, nome: 'Admistrativo' },
-    { id: 2, nome: 'Produção' },
-    { id: 3, nome: 'Geral' },
-    { id: 4, nome: 'Refeitório' },
-  ];
+      { id: 1, nome: 'Admistrativo' },
+      { id: 2, nome: 'Produção' },
+      { id: 3, nome: 'Geral' },
+      { id: 4, nome: 'Refeitório' },
+    ];
 
   funcoes: {
     id: number;
     nome: string;
   }[] = [
-    { id: 1, nome: 'CEO' },
-    { id: 2, nome: 'Gerente' },
-    { id: 3, nome: 'Auxiliar de Limpeza' },
-    { id: 4, nome: 'Cozinheiro' },
-  ];
+      { id: 1, nome: 'CEO' },
+      { id: 2, nome: 'Gerente' },
+      { id: 3, nome: 'Auxiliar' },
+      { id: 4, nome: 'Cozinheiro' },
+    ];
 
   // Pagination
   p: number = 1;
@@ -64,32 +64,34 @@ export class UsuariosComponent implements OnInit {
     funcao: [null, Validators.required],
     setor: [null, Validators.required]
   });
+
+  // Verificação para ver se o formulário já foi enviado e poder formatá-lo
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
   }
 
-  preencherCamposParaEdicao(usuario: any){
+  preencherCamposParaEdicao(usuario: any) {
     this.formulario.controls['idColaborador'].setValue(usuario.id);
     this.formulario.controls['nome'].setValue(usuario.nome);
-    this.formulario.controls['funcao'].setValue(usuario.funcao);
-    this.formulario.controls['setor'].setValue(usuario.setor);
+    this.formulario.controls['funcao'].setValue(usuario.funcao.id);
+    this.formulario.controls['setor'].setValue(usuario.setor.id);
   }
 
-  onSave(){
+  onSave() {
     // Colocando formulário como enviado.
     this.formularioEnviado = true;
-    
-    if(this.formulario.valid){
+
+    if (this.formulario.valid) {
       this.toastr.success('Alterações feitas!', 'Salvo!');
       // Colocando formulário como NÃO enviado.
       this.formularioEnviado = false;
-    } else{
+    } else {
       this.toastr.warning('Verifique os campos em destaque', 'Dados inváliods!');
     }
   }
 
-  onCancel(){
+  onCancel() {
     // Limpando formulario
     this.formulario = this.formBuilder.group({
       idColaborador: [0, Validators.required],
