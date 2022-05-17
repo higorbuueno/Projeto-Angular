@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UsuariosService } from './usuarios.service';
+import { Pizza } from '../shared/dto/pizza-dto';
+import { PizzasService } from '../shared/services/pizza.service';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Component({
-  selector: 'app-usuarios',
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.css'],
+  selector: 'app-produtos',
+  templateUrl: './produtos.component.html',
+  styleUrls: ['./produtos.component.css']
 })
-export class UsuariosComponent implements OnInit {
+export class ProdutosComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private usuariosService: UsuariosService) { }
+    private pizzasService: PizzasService) { }
 
   usuarios: {
     id: number;
@@ -28,7 +30,7 @@ export class UsuariosComponent implements OnInit {
       { id: 5, nome: 'João JPK', funcao: { id: 4, nome: 'Cozinheiro' }, setor: { id: 4, nome: 'Refeitório' } },
       { id: 6, nome: 'João JPK', funcao: { id: 2, nome: 'Gerente' }, setor: { id: 1, nome: 'Admistrativo' } },
       { id: 7, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
-
+      
       { id: 8, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
       { id: 9, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
       { id: 10, nome: 'João JPK', funcao: { id: 3, nome: 'Auxiliar' }, setor: { id: 2, nome: 'Produção' } },
@@ -57,28 +59,36 @@ export class UsuariosComponent implements OnInit {
       { id: 4, nome: 'Cozinheiro' },
     ];
 
+  pizzas: Pizza[] = [];
   // Pagination
   p: number = 1;
 
   // Formulário
   formulario: FormGroup = this.formBuilder.group({
-    idColaborador: [0, Validators.required],
-    nome: [null, Validators.required],
-    funcao: [null, Validators.required],
-    setor: [null, Validators.required]
+    id: [0, Validators.required],
+    sabor: [null, Validators.required],
+    valor: [null, Validators.required]
   });
 
   // Verificação para ver se o formulário já foi enviado e poder formatá-lo
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.getAllPizzas();
   }
 
-  preencherCamposParaEdicao(usuario: any) {
-    this.formulario.controls['idColaborador'].setValue(usuario.id);
-    this.formulario.controls['nome'].setValue(usuario.nome);
-    this.formulario.controls['funcao'].setValue(usuario.funcao.id);
-    this.formulario.controls['setor'].setValue(usuario.setor.id);
+  getAllPizzas(){
+    this.pizzasService.getAllPizzas().subscribe(response => {
+      this.pizzas = response;
+    }, error => {
+      this.toastr.error(error.error.text)
+    });
+  }
+
+  preencherCamposParaEdicao(produto: any) {
+    this.formulario.controls['id'].setValue(produto.id);
+    this.formulario.controls['sabor'].setValue(produto.sabor);
+    this.formulario.controls['valor'].setValue((produto.valor).toString());
   }
 
   onSave() {
@@ -86,7 +96,13 @@ export class UsuariosComponent implements OnInit {
     this.formularioEnviado = true;
 
     if (this.formulario.valid) {
-      this.toastr.success('Alterações feitas!', 'Salvo!');
+      this.pizzasService.updatePizza(this.formulario.value).subscribe(response => {
+        this.toastr.success('Alterações feitas!', 'Salvo!');
+        console.log(response);
+      }, error => {
+        this.toastr.error(error.text, 'Algum erro');
+      })
+      
       // Colocando formulário como NÃO enviado.
       this.formularioEnviado = false;
     } else {
@@ -97,10 +113,9 @@ export class UsuariosComponent implements OnInit {
   onCancel() {
     // Limpando formulario
     this.formulario = this.formBuilder.group({
-      idColaborador: [0, Validators.required],
-      nome: [null, Validators.required],
-      funcao: [null, Validators.required],
-      setor: [null, Validators.required]
+      id: [0, Validators.required],
+      sabor: [null, Validators.required],
+      valor: [null, Validators.required]
     });
 
     // Colocando formulário como não enviado.
