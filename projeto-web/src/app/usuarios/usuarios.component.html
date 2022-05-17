@@ -1,11 +1,83 @@
 <div class="card text-center">
-  <div class="card-header">Usuarios</div>
-  <div class="card-body">
-    <h5 class="card-title">Usuarios Usuarios</h5>
-    <p class="card-text">
-      Usuarios Usuarios Usuarios Usuarios Usuarios Usuarios
-    </p>
-    <a [routerLink]="'usuarios'" class="btn btn-success">Usuarios</a>
+  <div class="card-header"><h5 class="card-title">Gerenciar usuarios</h5></div>
+  <div class="card-body row">
+    <div class="col-6">
+      <table class="table table-hover">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">RE</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Função</th>
+            <th scope="col">Setor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 10, currentPage: p }" (click)="preencherCamposParaEdicao(usuario)">
+            <th scope="row">{{ usuario.id }}</th>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.funcao }}</td>
+            <td>{{ usuario.setor }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <pagination-controls (pageChange)="p = $event"
+      previousLabel="Anterior"
+      nextLabel="Próximo"></pagination-controls>
+    </div>
+
+    <div class="col-6 d-flex justify-content-center">
+      <div style="width: 70%;">
+        <form [formGroup]="formulario">
+          <div class="mb-4 row">
+            <div class="col-3">
+              <p for="input-nome" class="form-label text-start">RE</p>
+              <input type="text" class="form-control" id="input-nome" formControlName="idColaborador"
+              [ngClass]="{'invalid-select': formulario.get('idColaborador')?.invalid && formularioEnviado}" readonly>
+            </div>
+            <div class="col-9">
+              <p for="input-nome" class="form-label text-start">Nome</p>
+              <input type="text" class="form-control" id="input-nome" formControlName="nome"
+              [ngClass]="{'invalid-select': formulario.get('nome')?.invalid && formularioEnviado}">
+            </div>
+          </div>
+          <div class="mb-4">
+            <p for="select-funcao" class="form-label text-start">Função</p>
+            <select class="form-select" id="select-funcao" formControlName="funcao"
+            [ngClass]="{'invalid-select': formulario.get('funcao')?.invalid && formularioEnviado}">
+              <option selected disabled>Selecione a função</option>
+              <option *ngFor="let funcao of funcoes" [value]="funcao.id">{{ funcao.nome }}</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <p for="select-setor" class="form-label text-start">Setor</p>
+            <select class="form-select" id="select-setor" formControlName="setor"
+            [ngClass]="{'invalid-select': formulario.get('setor')?.invalid && formularioEnviado}">
+              <option selected disabled>Selecione o setor</option>
+              <option *ngFor="let setor of setores" [value]="setor.id">{{ setor.nome }}</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-danger me-3" (click)="onCancel()">
+            <div class="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+            <label class="ms-2" type="button">Descartar</label>
+            </div>
+          </button>
+          <button type="submit" class="btn btn-success" (click)="onSave()">
+            <div class="d-flex align-items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">
+                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>
+              </svg>
+              <label class="ms-2" type="button">Salvar</label>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="card-footer text-muted">Usuarios</div>
+  <!-- <div class="card-footer text-muted">Footer</div> -->
 </div>

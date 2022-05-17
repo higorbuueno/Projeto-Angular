@@ -1,3 +1,5 @@
+@import '~ngx-toastr/toastr';
+
 body {
     min-height: 100vh;
     min-height: -webkit-fill-available;
@@ -114,7 +116,9 @@ main {
     -webkit-overflow-scrolling: touch;
 }
 
-
+li {
+    list-style: none;
+}
 
 .router-outlet {
     width: 100%;
