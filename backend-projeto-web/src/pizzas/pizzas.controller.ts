@@ -1,34 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
 import { PizzasService } from './pizzas.service';
-import { CreatePizzaDto } from './dto/create-pizza.dto';
-import { UpdatePizzaDto } from './dto/update-pizza.dto';
 
-@Controller('pizzas')
+@Controller('api')
 export class PizzasController {
   constructor(private readonly pizzasService: PizzasService) {}
 
-  @Post()
-  create(@Body() createPizzaDto: CreatePizzaDto) {
-    return this.pizzasService.create(createPizzaDto);
-  }
-
-  @Get()
+  @Get('all-usuarios')
   findAll() {
-    return this.pizzasService.findAll();
+    return this.pizzasService.findAllUsuarios();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pizzasService.findOne(+id);
+  @Get('all-noticias')
+  findAllNoticias() {
+    return this.pizzasService.findAllNoticias();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePizzaDto: UpdatePizzaDto) {
-    return this.pizzasService.update(+id, updatePizzaDto);
+  @Post()
+  createNoticias(@Body() noticia: any) {
+    return this.pizzasService.createNoticia(noticia);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pizzasService.remove(+id);
+  @Patch()
+  updateNoticias(@Body() noticia: any) {
+    return this.pizzasService.updateNoticia(noticia);
   }
+
+  @Delete('/:id')
+  deleteNoticia(@Param() param: any) {
+    return this.pizzasService.deleteNoticia(param.id);
+  }
+
 }

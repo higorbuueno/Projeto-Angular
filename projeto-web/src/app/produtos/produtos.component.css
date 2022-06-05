@@ -6,3 +6,7 @@ tbody tr th,
 td {
     cursor: pointer;
 }
+
+#input-texto{
+    height: 250px;
+}

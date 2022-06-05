@@ -1,11 +1,15 @@
-<div class="card text-center">
-    <div class="card-header">Home</div>
-    <div class="card-body">
-      <h5 class="card-title">Home Home</h5>
-      <p class="card-text">
-        Home Home Home Home Home Home
-      </p>
-      <a [routerLink]="'home'" class="btn btn-primary">Home</a>
-    </div>
-    <div class="card-footer text-muted">Home</div>
+<div class="card">
+  <div class="card-header">
+    <h5 class="text-center">Lembretes</h5>
   </div>
+  <div class="card-body">
+    <div class="card mb-4 d-flex flex-row align-items-center" id="card-noticia" style="width: 100%;" *ngFor="let lembrete of lembretes">
+      <img src="../assets/img/angular-stickers-adesivo.png" width="100px" height="100px" alt="imagem-angular">
+      <div class="card-body">
+        <h5 class="card-title">{{ lembrete.titulo }}</h5>
+        <p class="card-text">{{ lembrete.texto }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer"></div>
+</div>

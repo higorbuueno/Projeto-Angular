@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PizzasService } from '../shared/services/pizza.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  lembretes: any[] = [];
+
+  constructor(
+    private pizzasService: PizzasService
+  ) { }
 
   ngOnInit(): void {
+    this.getAllLembretes();
   }
 
+  getAllLembretes(){
+    this.pizzasService.getAll().subscribe(result => {
+      this.lembretes = result;
+    })
+  }
 }

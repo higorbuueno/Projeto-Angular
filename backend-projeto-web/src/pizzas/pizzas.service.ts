@@ -6,26 +6,61 @@ import { PizzasRepository } from './pizzas.repository';
 
 @Injectable()
 export class PizzasService {
+  constructor(private pizzasRepository: PizzasRepository) {}
 
-  constructor(private pizzasRepository: PizzasRepository){}
-
-  create(createPizzaDto: CreatePizzaDto) {
-    return 'This action adds a new pizza';
+  async findAllUsuarios(): Promise<any[]> {
+    const produtos = await this.pizzasRepository.query(`
+    SELECT
+      U.id,
+      U.nome,
+      F.nome as funcao
+    FROM
+        usuarios U
+    INNER JOIN
+      funcoes F
+      ON U.funcao = F.id
+    `);
+    return produtos;
   }
 
-  findAll(): Promise<Pizza[]> {
-    return this.pizzasRepository.find();
+  async findAllNoticias(): Promise<any[]> {
+    const noticias = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    noticias
+    `);
+    return noticias;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pizza`;
+  createNoticia(noticia: any): Promise<any> {
+    return this.pizzasRepository.query(`
+    INSERT INTO noticias
+    (titulo, texto, imagem)
+    VALUES
+    ('${noticia.titulo}', '${noticia.texto}', '${noticia.imagem}');
+    `);
   }
 
-  update(id: number, updatePizzaDto: UpdatePizzaDto) {
-    return updatePizzaDto;
+  updateNoticia(noticia: any): Promise<any> {
+    return this.pizzasRepository.query(`
+    UPDATE 
+    noticias
+    SET
+      titulo = '${noticia.titulo}',
+      texto = '${noticia.texto}',
+      imagem = '${noticia.imagem}'
+    WHERE
+    id = ${noticia.id};
+    `);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pizza`;
+  deleteNoticia(id: number): Promise<any> {
+    return this.pizzasRepository.query(`
+    DELETE FROM
+    noticias
+    WHERE
+    id = ${id};
+    `);
   }
 }

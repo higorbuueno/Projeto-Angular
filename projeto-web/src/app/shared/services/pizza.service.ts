@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Pizza } from '../dto/pizza-dto';
+import { Noticia } from '../dto/noticia-dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PizzasService {
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  getAllPizzas(): Observable<Pizza[]>{
-    return this.http.get<Pizza[]>('http://localhost:3000/pizzas');
+  getAll(): Observable<Noticia[]> {
+    return this.http.get<Noticia[]>('http://localhost:3000/api/all-noticias');
   }
 
-  updatePizza(pizza: Pizza) {
-      return this.http.patch<Pizza>(`http://localhost:3000/pizzas/${pizza.id}`, pizza);
+  create(pizza: Noticia) {
+    return this.http.post<Noticia>(`http://localhost:3000/api/`, pizza);
+  }
+
+  update(pizza: Noticia) {
+    return this.http.patch<Noticia>(`http://localhost:3000/api/`, pizza);
+  }
+
+  delete(id: number) {
+    return this.http.delete<Noticia>(`http://localhost:3000/api/${id}`);
   }
 }
