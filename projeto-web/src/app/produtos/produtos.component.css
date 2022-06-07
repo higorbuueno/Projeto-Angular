@@ -10,3 +10,7 @@ td {
 #input-texto{
     height: 250px;
 }
+
+input[type=radio] {
+    cursor: pointer;
+}

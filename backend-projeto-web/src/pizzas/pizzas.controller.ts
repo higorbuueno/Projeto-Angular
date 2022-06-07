@@ -15,6 +15,11 @@ export class PizzasController {
     return this.pizzasService.findAllNoticias();
   }
 
+  @Get('all-tipos')
+  findAllTipos() {
+    return this.pizzasService.findAllTipos();
+  }
+
   @Post()
   createNoticias(@Body() noticia: any) {
     return this.pizzasService.createNoticia(noticia);

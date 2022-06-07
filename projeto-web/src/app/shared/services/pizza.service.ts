@@ -13,6 +13,10 @@ export class PizzasService {
     return this.http.get<Noticia[]>('http://localhost:3000/api/all-noticias');
   }
 
+  getAllTipos(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-tipos');
+  }
+
   create(pizza: Noticia) {
     return this.http.post<Noticia>(`http://localhost:3000/api/`, pizza);
   }

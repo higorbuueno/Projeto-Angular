@@ -1,6 +1,6 @@
 <div class="card text-center">
   <div class="card-header">
-    <h5 class="card-title">Gerenciar produtos</h5>
+    <h5 class="card-title">Gerenciar cadastros</h5>
   </div>
   <div class="card-body row">
     <div class="col-6">
@@ -9,6 +9,7 @@
           <tr class="table-dark">
             <th scope="col">id</th>
             <th scope="col">Título</th>
+            <th scope="col">Tipo</th>
             <th scope="col">Texto</th>
           </tr>
         </thead>
@@ -17,7 +18,8 @@
             (click)="preencherCamposParaEdicao(noticia)">
             <th scope="row">{{ noticia.id }}</th>
             <td>{{ noticia.titulo }}</td>
-            <td>{{ noticia.texto.substring(0, 100) }}...</td>
+            <td class="text-middle">{{verificarTipo(noticia.tipo)}}</td>
+            <td class="text-break">{{ noticia.texto.substring(0, 100) }}...</td>
           </tr>
         </tbody>
       </table>
@@ -40,11 +42,44 @@
                 [ngClass]="{'invalid-select': formulario.get('titulo')?.invalid && formularioEnviado}">
             </div>
           </div>
+
+          <div class="mb-4 text-start">
+            <div>
+              <div class="form-check" *ngFor="let tipo of tipos">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" formControlName="tipo" [value]="tipo.id">
+                  {{tipo.descricao}}
+                </label>
+              </div>
+              <!-- <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Card VER RADIO
+                </label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                <label class="form-check-label" for="flexRadioDefault3">
+                  Review VER RADIO
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
+                <label class="form-check-label" for="flexRadioDefault4">
+                  Artigo VER RADIO
+                </label>
+              </div> -->
+            </div>
+          </div>
+
           <div class="mb-4">
             <p for="input-nome" class="form-label text-start">Texto</p>
             <textarea type="text" class="form-control" id="input-texto" formControlName="texto"
+              [maxlength]="numeroCaracteres"
               [ngClass]="{'invalid-select': formulario.get('texto')?.invalid && formularioEnviado}">
-                </textarea>
+            </textarea>
           </div>
 
           <div class="mb-4">

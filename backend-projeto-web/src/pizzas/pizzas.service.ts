@@ -1,7 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePizzaDto } from './dto/create-pizza.dto';
-import { UpdatePizzaDto } from './dto/update-pizza.dto';
-import { Pizza } from './entities/pizza.entity';
 import { PizzasRepository } from './pizzas.repository';
 
 @Injectable()
@@ -33,12 +30,22 @@ export class PizzasService {
     return noticias;
   }
 
+  async findAllTipos(): Promise<any[]> {
+    const tipos = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    tipo_noticias
+    `);
+    return tipos;
+  }
+
   createNoticia(noticia: any): Promise<any> {
     return this.pizzasRepository.query(`
     INSERT INTO noticias
-    (titulo, texto, imagem)
+    (titulo, texto, tipo, imagem)
     VALUES
-    ('${noticia.titulo}', '${noticia.texto}', '${noticia.imagem}');
+    ('${noticia.titulo}', '${noticia.texto}', '${noticia.tipo}', '${noticia.imagem}');
     `);
   }
 
@@ -49,6 +56,7 @@ export class PizzasService {
     SET
       titulo = '${noticia.titulo}',
       texto = '${noticia.texto}',
+      tipo = '${noticia.tipo}',
       imagem = '${noticia.imagem}'
     WHERE
     id = ${noticia.id};

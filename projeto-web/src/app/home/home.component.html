@@ -1,15 +1,23 @@
-<div class="card">
-  <div class="card-header">
-    <h5 class="text-center">Lembretes</h5>
-  </div>
-  <div class="card-body">
-    <div class="card mb-4 d-flex flex-row align-items-center" id="card-noticia" style="width: 100%;" *ngFor="let lembrete of lembretes">
-      <img src="../assets/img/angular-stickers-adesivo.png" width="100px" height="100px" alt="imagem-angular">
-      <div class="card-body">
-        <h5 class="card-title">{{ lembrete.titulo }}</h5>
-        <p class="card-text">{{ lembrete.texto }}</p>
+<small>
+  <div id="container-principal" class="container row m-auto">
+    <div class="col-8" style="background-color: red;"></div>
+
+    <div class="card col-3 ms-5 align-items-center ps-0 pe-0">
+      <div class="card-header" style="width: 100%;">
+        <h5 class="text-center">Lembretes</h5>
+      </div>
+      <div class="card-body" *ngFor="let lembrete of lembretes | paginate: { itemsPerPage: 2, currentPage: p }">
+        <div class="card align-items-center" id="card-noticia" style="width: 18rem;">
+          <img src="../assets/img/cinza-claro.jpg" width="100%" height="150px" alt="imagem-angular">
+          <div class="card-body">
+            <h5 class="card-title">{{ lembrete.titulo }}</h5>
+            <p class="card-text text-break">{{ lembrete.texto }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
       </div>
     </div>
   </div>
-  <div class="card-footer"></div>
-</div>
+</small>

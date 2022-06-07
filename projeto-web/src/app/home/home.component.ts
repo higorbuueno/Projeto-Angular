@@ -9,6 +9,9 @@ import { PizzasService } from '../shared/services/pizza.service';
 export class HomeComponent implements OnInit {
 
   lembretes: any[] = [];
+  
+  // Paginação
+  p: number = 1;
 
   constructor(
     private pizzasService: PizzasService
