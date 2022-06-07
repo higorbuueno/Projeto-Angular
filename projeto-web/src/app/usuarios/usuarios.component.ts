@@ -18,135 +18,60 @@ export class UsuariosComponent implements OnInit {
     private usuariosService: UsuariosService
   ) {}
 
-  usuarios: Usuario[] = [
-    // {
-    //   id: 1,
-    //   nome: 'Higor',
-    //   funcao: { id: 1, nome: 'CEO' },
-    //   setor: { id: 1, nome: 'Admistrativo' },
-    // },
-    // {
-    //   id: 2,
-    //   nome: 'Maicon',
-    //   funcao: { id: 2, nome: 'Gerente' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-    // {
-    //   id: 3,
-    //   nome: 'Igor Doné',
-    //   funcao: { id: 2, nome: 'Gerente' },
-    //   setor: { id: 3, nome: 'Geral' },
-    // },
-    // {
-    //   id: 4,
-    //   nome: 'João JPK',
-    //   funcao: { id: 4, nome: 'Cozinheiro' },
-    //   setor: { id: 4, nome: 'Refeitório' },
-    // },
-    // {
-    //   id: 5,
-    //   nome: 'João JPK',
-    //   funcao: { id: 4, nome: 'Cozinheiro' },
-    //   setor: { id: 4, nome: 'Refeitório' },
-    // },
-    // {
-    //   id: 6,
-    //   nome: 'João JPK',
-    //   funcao: { id: 2, nome: 'Gerente' },
-    //   setor: { id: 1, nome: 'Admistrativo' },
-    // },
-    // {
-    //   id: 7,
-    //   nome: 'João JPK',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
+  usuarios: Usuario[] = [];
 
-    // {
-    //   id: 8,
-    //   nome: 'João JPK',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-    // {
-    //   id: 9,
-    //   nome: 'João JPK',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-    // {
-    //   id: 10,
-    //   nome: 'João JPK',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-    // {
-    //   id: 11,
-    //   nome: 'a',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-    // {
-    //   id: 12,
-    //   nome: 'a',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-    // {
-    //   id: 13,
-    //   nome: 'a',
-    //   funcao: { id: 3, nome: 'Auxiliar' },
-    //   setor: { id: 2, nome: 'Produção' },
-    // },
-  ];
-
-  setores: Setor[] = [
-    { id: 1, nome: 'Admistrativo' },
-    { id: 2, nome: 'Produção' },
-    { id: 3, nome: 'Geral' },
-    { id: 4, nome: 'Refeitório' },
-  ];
-
-  funcoes: Funcao[] = [
-    { id: 1, nome: 'CEO' },
-    { id: 2, nome: 'Gerente' },
-    { id: 3, nome: 'Auxiliar' },
-    { id: 4, nome: 'Cozinheiro' },
-  ];
+  funcoes: Funcao[] = [];
 
   // Pagination
   p: number = 1;
 
   // Formulário
   formulario: FormGroup = this.formBuilder.group({
-    idColaborador: [0, Validators.required],
+    id: [null],
     nome: [null, Validators.required],
     funcao: [null, Validators.required],
-    setor: [null, Validators.required],
   });
 
   // Verificação para ver se o formulário já foi enviado e poder formatá-lo
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.loadCargos();
     this.loadUsuarios();
   }
 
+  verificarCargo(id: number){
+    return this.funcoes.filter(funcao => funcao.id === id)[0].nome;
+
+  }
+
+  loadCargos() {
+    this.usuariosService.getAllCargos().subscribe(
+      cargos => {
+        this.funcoes = cargos;
+      },
+      (error) => {
+        this.toastr.error(error.error.message);
+      }
+    );
+  }
+
   loadUsuarios() {
-    this.usuariosService.getAll().subscribe(usuarios => {
-      this.usuarios = usuarios;
-      console.log(usuarios);
-      this.toastr.success("Usuários carregados com sucesso!")
-    }, error => {
-      this.toastr.error(error.error.message);
-    })
+    this.usuariosService.getAll().subscribe(
+      usuarios => {
+        this.usuarios = usuarios;
+      },
+      (error) => {
+        this.toastr.error(error.error.message);
+      }
+    );
   }
 
   preencherCamposParaEdicao(usuario: any) {
-    this.formulario.controls['idColaborador'].setValue(usuario.id);
+    console.log(usuario);
+    this.formulario.controls['id'].setValue(usuario.id);
     this.formulario.controls['nome'].setValue(usuario.nome);
-    this.formulario.controls['funcao'].setValue(usuario.funcao.id);
-    this.formulario.controls['setor'].setValue(usuario.setor.id);
+    this.formulario.controls['funcao'].setValue(usuario.funcao);
   }
 
   onSave() {
@@ -154,28 +79,80 @@ export class UsuariosComponent implements OnInit {
     this.formularioEnviado = true;
 
     if (this.formulario.valid) {
-      this.toastr.success('Alterações feitas!', 'Salvo!');
-      console.log(this.formulario.value);
+      // SE O ID ESTIVER PREENCHIDO ELE VAI EDITAR!
+      if (this.formulario.value.id) {
+        this.usuariosService
+          .update(this.formulario.value)
+          .subscribe(
+            (response) => {
+              this.toastr.success('Usuario atualizado!', 'Salvo!');
+            },
+            (error) => {
+              this.toastr.error(error.text, 'Algum erro');
+            }
+          )
+          .add(() => {
+            this.loadUsuarios();
+          });
+      }
+      // SE O ID ESTIVER VAZIO ELE VAI CRIAR!
+      else {
+        this.usuariosService
+          .create(this.formulario.value)
+          .subscribe(
+            (response) => {
+              this.toastr.success('Nova noticia salva!', 'Salvo!');
+            },
+            (error) => {
+              this.toastr.error(error.text, 'Algum erro');
+            }
+          )
+          .add(() => {
+            this.loadUsuarios();
+          });
+      }
       // Colocando formulário como NÃO enviado.
       this.formularioEnviado = false;
+    } else {
+      this.toastr.warning(
+        'Verifique os campos em destaque',
+        'Dados inválidos!'
+      );
+    }
+  }
+
+  onClear() {
+    // Limpando formulario
+    this.formulario.reset();
+
+    // Colocando formulário como não enviado.
+    this.formularioEnviado = false;
+  }
+
+  onDelete() {
+    // Colocando formulário como enviado.
+    this.formularioEnviado = true;
+
+    if (this.formulario.valid) {
+      this.usuariosService
+        .delete(this.formulario.value.id)
+        .subscribe(
+          () => {
+            this.toastr.success('Deletado com sucesso.', 'Deletado!');
+          },
+          (error) => {
+            this.toastr.error(error.text, 'Algum erro');
+          }
+        )
+        .add(() => {
+          this.loadUsuarios();
+          this.onClear();
+        });
     } else {
       this.toastr.warning(
         'Verifique os campos em destaque',
         'Dados inváliods!'
       );
     }
-  }
-
-  onCancel() {
-    // Limpando formulario
-    this.formulario = this.formBuilder.group({
-      idColaborador: [0, Validators.required],
-      nome: [null, Validators.required],
-      funcao: [null, Validators.required],
-      setor: [null, Validators.required],
-    });
-
-    // Colocando formulário como não enviado.
-    this.formularioEnviado = false;
   }
 }

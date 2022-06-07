@@ -10,11 +10,15 @@ export class PizzasService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Noticia[]> {
-    return this.http.get<Noticia[]>('http://localhost:3000/api/all-noticias');
+    return this.http.get<Noticia[]>('http://localhost:3000/api/all-textos');
   }
 
   getAllTipos(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/all-tipos');
+  }
+
+  getAllCards(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-cards');
   }
 
   create(pizza: Noticia) {

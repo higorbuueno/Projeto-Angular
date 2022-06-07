@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { filter } from 'rxjs';
 import { Noticia } from '../shared/dto/noticia-dto';
 import { PizzasService } from '../shared/services/pizza.service';
-import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Component({
   selector: 'app-produtos',
@@ -46,7 +44,7 @@ export class ProdutosComponent implements OnInit {
   }
 
   verificarTipo(id: number){
-    return this.tipos.filter(tipo => tipo.id == id)[0].descricao
+    return this.tipos.filter(tipo => tipo.id === id)[0].descricao
   }
 
   getAllNoticias() {
@@ -79,7 +77,6 @@ export class ProdutosComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.formulario.value);
     // Colocando formulário como enviado.
     this.formularioEnviado = true;
 

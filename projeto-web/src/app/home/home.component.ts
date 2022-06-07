@@ -8,7 +8,7 @@ import { PizzasService } from '../shared/services/pizza.service';
 })
 export class HomeComponent implements OnInit {
 
-  lembretes: any[] = [];
+  cards: any[] = [];
   
   // Paginação
   p: number = 1;
@@ -18,12 +18,12 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllLembretes();
+    this.getAllCards();
   }
 
-  getAllLembretes(){
-    this.pizzasService.getAll().subscribe(result => {
-      this.lembretes = result;
+  getAllCards(){
+    this.pizzasService.getAllCards().subscribe(result => {
+      this.cards = result;
     })
   }
 }

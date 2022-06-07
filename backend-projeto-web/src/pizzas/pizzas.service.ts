@@ -10,7 +10,7 @@ export class PizzasService {
     SELECT
       U.id,
       U.nome,
-      F.nome as funcao
+      F.id as funcao
     FROM
         usuarios U
     INNER JOIN
@@ -20,12 +20,36 @@ export class PizzasService {
     return produtos;
   }
 
+  async findAllTextos(): Promise<any[]> {
+    const noticias = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    noticias
+    `);
+    return noticias;
+  }
+
   async findAllNoticias(): Promise<any[]> {
     const noticias = await this.pizzasRepository.query(`
     SELECT
     *
     FROM
     noticias
+    WHERE
+    tipo = 3
+    `);
+    return noticias;
+  }
+
+  async findAllCards(): Promise<any[]> {
+    const noticias = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    noticias
+    WHERE
+    tipo = 2
     `);
     return noticias;
   }
@@ -40,6 +64,18 @@ export class PizzasService {
     return tipos;
   }
 
+  async findAllCargos(): Promise<any[]> {
+    const tipos = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    funcoes
+    `);
+    return tipos;
+  }
+
+  // NOTICIAS
+  
   createNoticia(noticia: any): Promise<any> {
     return this.pizzasRepository.query(`
     INSERT INTO noticias
@@ -67,6 +103,38 @@ export class PizzasService {
     return this.pizzasRepository.query(`
     DELETE FROM
     noticias
+    WHERE
+    id = ${id};
+    `);
+  }
+
+
+  // USUARIOS
+  createUsuario(usuario: any): Promise<any> {
+    return this.pizzasRepository.query(`
+    INSERT INTO usuarios
+    (nome, funcao)
+    VALUES
+    ('${usuario.nome}', '${usuario.funcao}');
+    `);
+  }
+
+  updateUsuario(usuario: any): Promise<any> {
+    return this.pizzasRepository.query(`
+    UPDATE 
+    usuarios
+    SET
+      nome = '${usuario.nome}',
+      funcao = '${usuario.funcao}'
+    WHERE
+    id = ${usuario.id};
+    `);
+  }
+
+  deleteUsuario(id: number): Promise<any> {
+    return this.pizzasRepository.query(`
+    DELETE FROM
+    usuarios
     WHERE
     id = ${id};
     `);

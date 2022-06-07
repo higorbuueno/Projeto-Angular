@@ -13,6 +13,22 @@ export class UsuariosService {
   ) { }
 
   getAll(): Observable<Usuario[]>{
-    return this.http.get<Usuario[]>('http://localhost:3000/usuarios');
+    return this.http.get<Usuario[]>('http://localhost:3000/api/all-usuarios');
+  }
+
+  getAllCargos(): Observable<any[]>{
+    return this.http.get<any[]>('http://localhost:3000/api/all-cargos');
+  }
+
+  create(body: any) {
+    return this.http.post<any>(`http://localhost:3000/api/usuario`, body);
+  }
+
+  update(body: any) {
+    return this.http.patch<any>(`http://localhost:3000/api/usuario`, body);
+  }
+
+  delete(id: number) {
+    return this.http.delete<any>(`http://localhost:3000/api/usuario/${id}`);
   }
 }

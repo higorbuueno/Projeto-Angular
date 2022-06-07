@@ -10,14 +10,29 @@ export class PizzasController {
     return this.pizzasService.findAllUsuarios();
   }
 
+  @Get('all-textos')
+  findAllTextos() {
+    return this.pizzasService.findAllTextos();
+  }
+
   @Get('all-noticias')
   findAllNoticias() {
     return this.pizzasService.findAllNoticias();
   }
 
+  @Get('all-cards')
+  findAllCards() {
+    return this.pizzasService.findAllCards();
+  }
+
   @Get('all-tipos')
   findAllTipos() {
     return this.pizzasService.findAllTipos();
+  }
+
+  @Get('all-cargos')
+  findAllCargos() {
+    return this.pizzasService.findAllCargos();
   }
 
   @Post()
@@ -33,6 +48,21 @@ export class PizzasController {
   @Delete('/:id')
   deleteNoticia(@Param() param: any) {
     return this.pizzasService.deleteNoticia(param.id);
+  }
+
+  @Post('usuario')
+  createUsuario(@Body() usuario: any) {
+    return this.pizzasService.createUsuario(usuario);
+  }
+
+  @Patch('usuario')
+  updateUsuario(@Body() usuario: any) {
+    return this.pizzasService.updateUsuario(usuario);
+  }
+
+  @Delete('usuario/:id')
+  deleteUsuario(@Param() param: any) {
+    return this.pizzasService.deleteUsuario(param.id);
   }
 
 }
