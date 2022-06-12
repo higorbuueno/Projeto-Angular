@@ -1,22 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Noticia } from '../shared/dto/noticia-dto';
 import { PizzasService } from '../shared/services/pizza.service';
 
 @Component({
-  selector: 'app-produtos',
-  templateUrl: './produtos.component.html',
-  styleUrls: ['./produtos.component.css'],
+  selector: 'app-plataformas',
+  templateUrl: './plataformas.component.html',
+  styleUrls: ['./plataformas.component.css']
 })
-export class ProdutosComponent implements OnInit {
+export class PlataformasComponent implements OnInit {
+
   constructor(
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private pizzasService: PizzasService
   ) {}
 
-  noticias: Noticia[] = [];
+  
+  plataformas: any[] = [];
+  marcas: any[] = [];
+  
   // Pagination
   p: number = 1;
 
@@ -29,36 +32,21 @@ export class ProdutosComponent implements OnInit {
   // Formulário
   formulario: FormGroup = this.formBuilder.group({
     id: [null],
-    titulo: [null, Validators.required],
-    texto: [null, Validators.required],
+    nome: [null, Validators.required],
     tipo: [null, Validators.required],
-    imagem: [null]
+    marca: [null, Validators.required]
   });
 
   // Verificação para ver se o formulário já foi enviado e poder formatá-lo
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.getAllMarcas();
+    this.getAllPlataformas();
     this.getAllTipos();
-    this.getAllNoticias();
   }
 
-  verificarTipo(id: number){
-    return this.tipos.filter(tipo => tipo.id === id)[0].descricao
-  }
-
-  getAllNoticias() {
-    this.pizzasService.getAll().subscribe(
-      (response) => {
-        this.noticias = response;
-      },
-      (error) => {
-        this.toastr.error(error.error.text);
-      }
-    );
-  }
-
-  getAllTipos() {
+  getAllTipos(){
     this.pizzasService.getAllTipoNoticias().subscribe(
       (response) => {
         this.tipos = response;
@@ -69,11 +57,34 @@ export class ProdutosComponent implements OnInit {
     );
   }
 
-  preencherCamposParaEdicao(produto: any) {
-    this.formulario.controls['id'].setValue(produto.id);
-    this.formulario.controls['titulo'].setValue(produto.titulo);
-    this.formulario.controls['tipo'].setValue(produto.tipo);
-    this.formulario.controls['texto'].setValue(produto.texto);
+  getAllMarcas(){
+    this.pizzasService.getAllMarcas().subscribe(
+      (response) => {
+        this.marcas = response;
+      },
+      (error) => {
+        this.toastr.error(error.error.text);
+      }
+    );
+  }
+
+  getAllPlataformas() {
+    this.pizzasService.getAllPlataformas().subscribe(
+      (response) => {
+        this.plataformas = response;
+      },
+      (error) => {
+        this.toastr.error(error.error.text);
+      }
+    );
+  }
+
+
+  preencherCamposParaEdicao(plataforma: any) {
+    this.formulario.controls['id'].setValue(plataforma.id);
+    this.formulario.controls['nome'].setValue(plataforma.nome);
+    this.formulario.controls['tipo'].setValue(plataforma.tipo);
+    this.formulario.controls['marca'].setValue(plataforma.marca);
   }
 
   onSave() {
@@ -84,33 +95,33 @@ export class ProdutosComponent implements OnInit {
       // SE O ID ESTIVER PREENCHIDO ELE VAI EDITAR!
       if (this.formulario.value.id) {
         this.pizzasService
-          .update(this.formulario.value)
+          .updatePlataforma(this.formulario.value)
           .subscribe(
             (response) => {
-              this.toastr.success('Noticia atualizada!', 'Salvo!');
+              this.toastr.success('Plataforma atualizada!', 'Salvo!');
             },
             (error) => {
               this.toastr.error(error.text, 'Algum erro');
             }
           )
           .add(() => {
-            this.getAllNoticias();
+            this.getAllPlataformas();
           });
       }
       // SE O ID ESTIVER VAZIO ELE VAI CRIAR!
       else {
         this.pizzasService
-          .create(this.formulario.value)
+          .createPlataforma(this.formulario.value)
           .subscribe(
             (response) => {
-              this.toastr.success('Nova noticia salva!', 'Salvo!');
+              this.toastr.success('Nova plataforma salva!', 'Salvo!');
             },
             (error) => {
               this.toastr.error(error.text, 'Algum erro');
             }
           )
           .add(() => {
-            this.getAllNoticias();
+            this.getAllPlataformas();
           });
       }
       // Colocando formulário como NÃO enviado.
@@ -137,7 +148,7 @@ export class ProdutosComponent implements OnInit {
 
     if (this.formulario.valid) {
       this.pizzasService
-        .delete(this.formulario.value.id)
+        .deletePlataforma(this.formulario.value.id)
         .subscribe(
           () => {
             this.toastr.success('Deletado com sucesso.', 'Deletado!');
@@ -147,7 +158,7 @@ export class ProdutosComponent implements OnInit {
           }
         )
         .add(() => {
-          this.getAllNoticias();
+          this.getAllPlataformas();
           this.onClear();
         });
     } else {
@@ -157,4 +168,5 @@ export class ProdutosComponent implements OnInit {
       );
     }
   }
+
 }

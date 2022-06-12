@@ -9,9 +9,11 @@ import { PizzasService } from '../shared/services/pizza.service';
 export class HomeComponent implements OnInit {
 
   cards: any[] = [];
+  noticias: any[] = [];
   
   // Paginação
-  p: number = 1;
+  paginaNoticia: number = 1;
+  paginaCard: number = 1;
 
   constructor(
     private pizzasService: PizzasService
@@ -19,11 +21,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCards();
+    this.getAllNoticias();
   }
 
   getAllCards(){
     this.pizzasService.getAllCards().subscribe(result => {
       this.cards = result;
+    })
+  }
+
+  getAllNoticias(){
+    this.pizzasService.getAllNoticias().subscribe(result => {
+      this.noticias = result;
     })
   }
 }

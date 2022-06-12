@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProdutosComponent } from './produtos/produtos.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { PlataformasComponent } from './plataformas/plataformas.component';
+import { CargosComponent } from './cargos/cargos.component';
+import { MarcasComponent } from './marcas/marcas.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { NgxMaskModule } from 'ngx-mask';
     DashboardComponent,
     UsuariosComponent,
     ProdutosComponent,
+    PlataformasComponent,
+    CargosComponent,
+    MarcasComponent,
   ],
   imports: [
     BrowserModule,

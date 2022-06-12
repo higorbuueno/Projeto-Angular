@@ -13,8 +13,12 @@ export class PizzasService {
     return this.http.get<Noticia[]>('http://localhost:3000/api/all-textos');
   }
 
-  getAllTipos(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/api/all-tipos');
+  getAllTipoNoticias(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-tipos-noticias');
+  }
+
+  getAllNoticias(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-noticias');
   }
 
   getAllCards(): Observable<any[]> {
@@ -32,4 +36,56 @@ export class PizzasService {
   delete(id: number) {
     return this.http.delete<Noticia>(`http://localhost:3000/api/${id}`);
   }
+
+  getAllPlataformas(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-plataformas');
+  }
+
+  createPlataforma(plataforma: any) {
+    return this.http.post<Noticia>(`http://localhost:3000/api/plataforma`, plataforma);
+  }
+
+  updatePlataforma(plataforma: any) {
+    return this.http.patch<Noticia>(`http://localhost:3000/api/plataforma`, plataforma);
+  }
+
+  deletePlataforma(id: any) {
+    return this.http.delete<Noticia>(`http://localhost:3000/api/plataforma/${id}`);
+  }
+
+  // CARGOS
+  getAllCargos(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-cargos');
+  }
+
+  createCargo(cargo: any) {
+    return this.http.post<Noticia>(`http://localhost:3000/api/cargo`, cargo);
+  }
+
+  updateCargo(cargo: any) {
+    return this.http.patch<Noticia>(`http://localhost:3000/api/cargo`, cargo);
+  }
+
+  deleteCargo(id: any) {
+    return this.http.delete<Noticia>(`http://localhost:3000/api/cargo/${id}`);
+  }
+
+  // MARCAS
+  getAllMarcas(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-marcas');
+  }
+
+  createMarca(marca: any) {
+    return this.http.post<Noticia>(`http://localhost:3000/api/marca`, marca);
+  }
+
+  updateMarca(marca: any) {
+    return this.http.patch<Noticia>(`http://localhost:3000/api/marca`, marca);
+  }
+
+  deleteMarca(id: any) {
+    return this.http.delete<Noticia>(`http://localhost:3000/api/marca/${id}`);
+  }
+
+  
 }

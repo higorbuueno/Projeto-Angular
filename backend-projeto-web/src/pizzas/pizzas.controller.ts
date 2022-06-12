@@ -1,19 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { PizzasService } from './pizzas.service';
 
 @Controller('api')
 export class PizzasController {
   constructor(private readonly pizzasService: PizzasService) {}
-
-  @Get('all-usuarios')
-  findAll() {
-    return this.pizzasService.findAllUsuarios();
-  }
-
-  @Get('all-textos')
-  findAllTextos() {
-    return this.pizzasService.findAllTextos();
-  }
 
   @Get('all-noticias')
   findAllNoticias() {
@@ -25,16 +23,16 @@ export class PizzasController {
     return this.pizzasService.findAllCards();
   }
 
-  @Get('all-tipos')
+  @Get('all-tipos-noticias')
   findAllTipos() {
-    return this.pizzasService.findAllTipos();
+    return this.pizzasService.findAllTipoNoticias();
   }
 
-  @Get('all-cargos')
-  findAllCargos() {
-    return this.pizzasService.findAllCargos();
+  // TEXTOS
+  @Get('all-textos')
+  findAllTextos() {
+    return this.pizzasService.findAllTextos();
   }
-
   @Post()
   createNoticias(@Body() noticia: any) {
     return this.pizzasService.createNoticia(noticia);
@@ -44,10 +42,17 @@ export class PizzasController {
   updateNoticias(@Body() noticia: any) {
     return this.pizzasService.updateNoticia(noticia);
   }
-
+  /////////////////////////////////////////////////////////////////
   @Delete('/:id')
   deleteNoticia(@Param() param: any) {
     return this.pizzasService.deleteNoticia(param.id);
+  }
+
+  // USUARIOS
+
+  @Get('all-usuarios')
+  findAll() {
+    return this.pizzasService.findAllUsuarios();
   }
 
   @Post('usuario')
@@ -64,5 +69,73 @@ export class PizzasController {
   deleteUsuario(@Param() param: any) {
     return this.pizzasService.deleteUsuario(param.id);
   }
+  //////////////////////////////////////////////////////////////////////////////
 
+  // PLATAFORMAS
+  @Get('all-plataformas')
+  findAllPlataformas() {
+    return this.pizzasService.findAllPlataformas();
+  }
+
+  @Post('plataforma')
+  createPlataforma(@Body() plataforma: any) {
+    return this.pizzasService.createPlataforma(plataforma);
+  }
+
+  @Patch('plataforma')
+  updatePlataforma(@Body() plataforma: any) {
+    return this.pizzasService.updatePlataforma(plataforma);
+  }
+
+  @Delete('plataforma/:id')
+  deletePlataforma(@Param() param: any) {
+    return this.pizzasService.deletePlataforma(param.id);
+  }
+  /////////////////////////////////////////////////////////////////
+
+    // CARGOS
+    @Get('all-cargos')
+    findAllCargos() {
+      return this.pizzasService.findAllCargos();
+    }
+  
+    @Post('cargo')
+    createCargo(@Body() cargo: any) {
+      return this.pizzasService.createCargo(cargo);
+    }
+  
+    @Patch('cargo')
+    updateCargo(@Body() cargo: any) {
+      return this.pizzasService.updateCargo(cargo);
+    }
+  
+    @Delete('cargo/:id')
+    deleteCargo(@Param() param: any) {
+      return this.pizzasService.deleteCargo(param.id);
+    }
+    /////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////
+
+    // CARGOS
+    @Get('all-marcas')
+    findAllMarcas() {
+      return this.pizzasService.findAllMarcas();
+    }
+  
+    @Post('marca')
+    createMarca(@Body() plataforma: any) {
+      return this.pizzasService.createMarca(plataforma);
+    }
+  
+    @Patch('marca')
+    updateMarca(@Body() plataforma: any) {
+      return this.pizzasService.updateMarca(plataforma);
+    }
+  
+    @Delete('marca/:id')
+    deleteMarca(@Param() param: any) {
+      return this.pizzasService.deleteMarca(param.id);
+    }
+    /////////////////////////////////////////////////////////////////
 }

@@ -1,0 +1,16 @@
+.invalid-select {
+    border: 1px solid #f08989;
+}
+
+tbody tr th,
+td {
+    cursor: pointer;
+}
+
+#input-texto{
+    height: 250px;
+}
+
+input[type=radio] {
+    cursor: pointer;
+}
