@@ -1,7 +1,7 @@
 <div class="card text-center h-100">
     <h3 class="card-header card-title">Reviews</h3>
     <div class="card-body">
-        <div class="card mb-2 text-start" *ngFor="let conteudo of conteudos | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div class="card mb-2 text-start" *ngFor="let conteudo of conteudos | paginate: { itemsPerPage: 3, currentPage: p }">
             <h5 class="card-header card-title">{{conteudo.titulo}}</h5>
             <div class="card-body d-flex row flex-nowrap">
             <img src="../assets/img/cinza-claro.jpg" id="img-card" alt="imagem cinza">

@@ -13,9 +13,16 @@ import { PizzasService } from './pizzas.service';
 export class PizzasController {
   constructor(private readonly pizzasService: PizzasService) {}
 
+  // LOGIN
   @Post('login')
   login(@Body() body: any) {
     return this.pizzasService.login(body);
+  }
+
+  // GRAFICOS
+  @Get('informacoes-grafico')
+  getInformacoesGrafico(){
+    return this.pizzasService.getInformacoesGrafico();
   }
 
   @Get('all-noticias')

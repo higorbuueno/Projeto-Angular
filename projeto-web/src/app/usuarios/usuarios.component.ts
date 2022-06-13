@@ -79,7 +79,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   preencherCamposParaEdicao(usuario: any) {
-    console.log(usuario);
     this.formulario.controls['id'].setValue(usuario.id);
     this.formulario.controls['nome'].setValue(usuario.nome);
     this.formulario.controls['senha'].setValue(usuario.senha);

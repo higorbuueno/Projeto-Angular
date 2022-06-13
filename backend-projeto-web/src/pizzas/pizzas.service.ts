@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { TiposNoticias } from 'src/shared/enum/tipos-noticias.enum';
 import { PizzasRepository } from './pizzas.repository';
 
 @Injectable()
 export class PizzasService {
   constructor(private pizzasRepository: PizzasRepository) {}
 
-  async login(body: any){
+  // LOGIN
+  async login(body: any) {
     const usuario = await this.pizzasRepository.query(`
     SELECT
     *
@@ -17,6 +19,52 @@ export class PizzasService {
     senha = '${body.senha}'
     `);
     return usuario;
+  }
+
+  // GRAFICO
+  async getInformacoesGrafico() {
+    const noticiasTotal = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    noticias`);
+
+    var artigos: number[] = [];
+    var noticias: number[] = [];
+    var reviews: number[] = [];
+
+    for (let i = 0; i < 7; i++) {
+      var contadorArtigo: number = 0;
+      var contadorNoticia: number = 0;
+      var contadorReview: number = 0;
+      noticiasTotal.forEach((element) => {
+        if (
+          element.criacao.getDay() === i &&
+          element.tipo === TiposNoticias.ARTIGO
+        ) {
+          contadorArtigo++;
+        }
+        if (
+          element.criacao.getDay() === i &&
+          element.tipo === TiposNoticias.NOTICIA
+        ) {
+          contadorNoticia++;
+        }
+        if (
+          element.criacao.getDay() === i &&
+          element.tipo === TiposNoticias.REVIEW
+        ) {
+          contadorReview++;
+        }
+      });
+      artigos.push(contadorArtigo);
+      noticias.push(contadorNoticia);
+      reviews.push(contadorReview);
+      contadorArtigo = 0;
+      contadorNoticia = 0;
+      contadorReview = 0;
+    }
+        return { artigos: artigos, noticias: noticias, reviews: reviews };
   }
 
   async findAllTextos(): Promise<any[]> {
@@ -90,11 +138,17 @@ export class PizzasService {
   // NOTICIAS
 
   createNoticia(noticia: any): Promise<any> {
+    var criacao = new Date();
+
     return this.pizzasRepository.query(`
     INSERT INTO noticias
-    (titulo, texto, tipo, plataforma)
+    (titulo, texto, tipo, plataforma, criacao)
     VALUES
-    ('${noticia.titulo}', '${noticia.texto}', '${noticia.tipo}', '${noticia.plataforma}');
+    ('${noticia.titulo}', '${noticia.texto}', '${noticia.tipo}', '${
+      noticia.plataforma
+    }', '${criacao.getFullYear()}-${
+      criacao.getMonth() + 1
+    }-${criacao.getDate()} ${criacao.getHours()}:${criacao.getMinutes()}:${criacao.getSeconds()}');
     `);
   }
 
@@ -109,7 +163,9 @@ export class PizzasService {
       texto = '${noticia.texto}',
       tipo = '${noticia.tipo}',
       plataforma = '${noticia.plataforma}',
-      modificacao = '${modificacao.getFullYear()}-${modificacao.getMonth()+1}-${modificacao.getDate()} ${modificacao.getHours()}:${modificacao.getMinutes()}:${modificacao.getSeconds()}'
+      modificacao = '${modificacao.getFullYear()}-${
+      modificacao.getMonth() + 1
+    }-${modificacao.getDate()} ${modificacao.getHours()}:${modificacao.getMinutes()}:${modificacao.getSeconds()}'
     WHERE
     id = ${noticia.id};
     `);
@@ -175,7 +231,7 @@ export class PizzasService {
 
   // Plataformas
 
-  async findAllTipoPlataformas(){
+  async findAllTipoPlataformas() {
     const tipos = await this.pizzasRepository.query(`
     SELECT
     *

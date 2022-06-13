@@ -1,7 +1,7 @@
 <div class="card text-center h-100">
     <h3 class="card-header card-title">Artigos</h3>
     <div class="card-body">
-        <div class="card mb-2 text-start" *ngFor="let conteudo of conteudos | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div class="card mb-2 text-start" *ngFor="let conteudo of conteudos | paginate: { itemsPerPage: 4, currentPage: p }">
             <h6 class="card-header card-title">{{conteudo.titulo}}</h6>
             <div class="card-body">
                 {{conteudo.texto}}

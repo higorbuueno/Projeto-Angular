@@ -26,45 +26,15 @@ export class DashboardComponent implements OnInit {
     'Sábado',
   ];
 
-  qtyNoticias = [85, 72, 86, 81, 84, 86, 94, 60, 62, 65, 41, 58];
-  qtyArtigos = [33, 38, 10, 93, 68, 50, 35, 29, 34, 2, 62, 4];
-  qtyReviews = [10, 20, 10, 50, 80, 30, 35, 29, 34, 2, 62, 4];
+  qtyNoticias = [];
+  qtyArtigos = [];
+  qtyReviews = [];
 
   ngOnInit() {
-    this.getInformacoesParaGrafico();
-    this.loadChart();
+    this.carregarGrafico();
   }
-
-  loadChart() {
-    new Chart(this.elemento.nativeElement, {
-      type: 'line',
-      data: {
-        labels: this.semana,
-        datasets: [
-          {
-            data: this.qtyNoticias,
-            borderColor: '#00AEFF',
-            fill: false,
-            label: 'Noticias',
-          },
-          {
-            data: this.qtyArtigos,
-            borderColor: '#FFCC00',
-            fill: false,
-            label: 'Artigos',
-          },
-          {
-            data: this.qtyReviews,
-            borderColor: '#59EB5E',
-            fill: false,
-            label: 'Reviews',
-          },
-        ],
-      },
-    });
-  }
-
-  getInformacoesParaGrafico() {
+  
+  carregarGrafico() {
     this.pizzasService.getInformacoesParaGrafico().subscribe(
       (response) => {
         this.qtyArtigos = response.artigos;
@@ -74,6 +44,35 @@ export class DashboardComponent implements OnInit {
       (error) => {
         this.toastr.error(error.error.text);
       }
-    );
+    ).add(() => {
+
+      new Chart(this.elemento.nativeElement, {
+        type: 'line',
+        data: {
+          labels: this.semana,
+          datasets: [
+            {
+              data: this.qtyNoticias,
+              borderColor: '#00AEFF',
+              fill: false,
+              label: 'Noticias',
+            },
+            {
+              data: this.qtyArtigos,
+              borderColor: '#FFCC00',
+              fill: false,
+              label: 'Artigos',
+            },
+            {
+              data: this.qtyReviews,
+              borderColor: '#59EB5E',
+              fill: false,
+              label: 'Reviews',
+            },
+          ],
+        },
+      });
+
+    });
   }
 }
