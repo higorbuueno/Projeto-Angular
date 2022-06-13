@@ -16,6 +16,8 @@ import { NgxMaskModule } from 'ngx-mask';
 import { PlataformasComponent } from './plataformas/plataformas.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { MarcasComponent } from './marcas/marcas.component';
+import { NgChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { MarcasComponent } from './marcas/marcas.component';
     NgxPaginationModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({ progressBar: true }),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
