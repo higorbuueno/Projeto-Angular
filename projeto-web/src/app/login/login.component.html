@@ -1,0 +1,14 @@
+<div class="container d-flex align-items-center justify-content-center h-100">
+    <form [formGroup]="formulario">
+        <div class="mb-3" [ngClass]="{'invalid-login': formulario.get('usuario')?.invalid && formularioEnviado}">
+          <label for="exampleInputEmail1" class="form-label">Usuário</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" formControlName="usuario" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3" [ngClass]="{'invalid-login': formulario.get('senha')?.invalid && formularioEnviado}">
+          <label for="exampleInputPassword1" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" formControlName="senha">
+          <div id="passwordhelp" class="form-text" [ngClass]="{'invalid-login': formulario.get('senha')?.invalid && formularioEnviado}">Nunca compartilhe sua senha com ninguém</div>
+        </div>
+        <button class="btn btn-primary" (click)="onLogin()">Entrar</button>
+      </form>
+</div>

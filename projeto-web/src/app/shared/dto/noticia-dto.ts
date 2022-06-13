@@ -3,5 +3,5 @@ export interface Noticia {
   titulo: string;
   texto: string;
   tipo: any;
-  imagem: string;
+  plataforma: number;
 }

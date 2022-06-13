@@ -9,6 +9,8 @@
             <tr class="table-dark">
               <th scope="col">id</th>
               <th scope="col">Plataforma</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Marca</th>
             </tr>
           </thead>
           <tbody>
@@ -16,6 +18,8 @@
               (click)="preencherCamposParaEdicao(plataforma)">
               <th scope="row">{{ plataforma.id }}</th>
               <td>{{ plataforma.nome }}</td>
+              <td>{{ verificarTipo(plataforma.tipo) }}</td>
+              <td>{{ verificarMarca(plataforma.marca) }}</td>
             </tr>
           </tbody>
         </table>
@@ -42,7 +46,7 @@
                 <select class="form-select" id="select-tipo" formControlName="tipo"
                 [ngClass]="{'invalid-select': formulario.get('tipo')?.invalid && formularioEnviado}">
                   <option selected disabled>Selecione o tipo</option>
-                  <option *ngFor="let tipo of tipos" [value]="tipo.id">{{ tipo.nome }}</option>
+                  <option *ngFor="let tipo of tipos" [value]="tipo.id">{{ tipo.descricao }}</option>
                 </select>
               </div>
               <div class="mb-4">

@@ -9,6 +9,10 @@ import { Noticia } from '../dto/noticia-dto';
 export class PizzasService {
   constructor(private http: HttpClient) {}
 
+  login(body: any): Observable<any[]> {
+    return this.http.post<any[]>('http://localhost:3000/api/login', body);
+  }
+
   getAll(): Observable<Noticia[]> {
     return this.http.get<Noticia[]>('http://localhost:3000/api/all-textos');
   }
@@ -16,6 +20,7 @@ export class PizzasService {
   getAllTipoNoticias(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/all-tipos-noticias');
   }
+  
 
   getAllNoticias(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/all-noticias');
@@ -23,6 +28,14 @@ export class PizzasService {
 
   getAllCards(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/all-cards');
+  }
+
+  getAllArtigos(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-artigos');
+  }
+
+  getAllReviews(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-reviews');
   }
 
   create(pizza: Noticia) {
@@ -37,6 +50,7 @@ export class PizzasService {
     return this.http.delete<Noticia>(`http://localhost:3000/api/${id}`);
   }
 
+  // PLATAFORMAS
   getAllPlataformas(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/all-plataformas');
   }
@@ -53,6 +67,9 @@ export class PizzasService {
     return this.http.delete<Noticia>(`http://localhost:3000/api/plataforma/${id}`);
   }
 
+  getAllTipoPlataformas(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/api/all-tipos-plataformas');
+  }
   // CARGOS
   getAllCargos(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/api/all-cargos');

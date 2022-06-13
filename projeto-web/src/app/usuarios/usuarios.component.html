@@ -40,6 +40,11 @@
             </div>
           </div>
           <div class="mb-4">
+            <p for="input-senha" class="form-label text-start">Senha</p>
+              <input type="password" class="form-control" id="input-senha" formControlName="senha"
+              [ngClass]="{'invalid-select': formulario.get('senha')?.invalid && formularioEnviado}">
+          </div>
+          <div class="mb-4">
             <p for="select-funcao" class="form-label text-start">Cargo</p>
             <select class="form-select" id="select-funcao" formControlName="funcao"
             [ngClass]="{'invalid-select': formulario.get('funcao')?.invalid && formularioEnviado}">

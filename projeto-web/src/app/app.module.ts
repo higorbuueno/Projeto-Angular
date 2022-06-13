@@ -16,6 +16,9 @@ import { NgxMaskModule } from 'ngx-mask';
 import { PlataformasComponent } from './plataformas/plataformas.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { MarcasComponent } from './marcas/marcas.component';
+import { ArtigosComponent } from './artigos/artigos.component';
+import { ReviewsComponent } from './reviews/reviews.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { MarcasComponent } from './marcas/marcas.component';
     PlataformasComponent,
     CargosComponent,
     MarcasComponent,
+    ArtigosComponent,
+    ReviewsComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

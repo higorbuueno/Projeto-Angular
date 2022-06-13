@@ -5,20 +5,18 @@ import { PizzasRepository } from './pizzas.repository';
 export class PizzasService {
   constructor(private pizzasRepository: PizzasRepository) {}
 
-  async findAllUsuarios(): Promise<any[]> {
-    const produtos = await this.pizzasRepository.query(`
+  async login(body: any){
+    const usuario = await this.pizzasRepository.query(`
     SELECT
-      U.id,
-      U.nome,
-      F.id as funcao
+    *
     FROM
-        usuarios U
-    INNER JOIN
-      funcoes F
-    ON
-      U.funcao = F.id
+    usuarios
+    WHERE
+    nome = '${body.usuario}'
+    AND 
+    senha = '${body.senha}'
     `);
-    return produtos;
+    return usuario;
   }
 
   async findAllTextos(): Promise<any[]> {
@@ -44,7 +42,7 @@ export class PizzasService {
   }
 
   async findAllCards(): Promise<any[]> {
-    const noticias = await this.pizzasRepository.query(`
+    const cards = await this.pizzasRepository.query(`
     SELECT
     *
     FROM
@@ -52,7 +50,31 @@ export class PizzasService {
     WHERE
     tipo = 2
     `);
-    return noticias;
+    return cards;
+  }
+
+  async findAllArtigos(): Promise<any[]> {
+    const artigos = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    noticias
+    WHERE
+    tipo = 1
+    `);
+    return artigos;
+  }
+
+  async findAllReviews(): Promise<any[]> {
+    const reviews = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    noticias
+    WHERE
+    tipo = 4
+    `);
+    return reviews;
   }
 
   async findAllTipoNoticias(): Promise<any[]> {
@@ -70,13 +92,15 @@ export class PizzasService {
   createNoticia(noticia: any): Promise<any> {
     return this.pizzasRepository.query(`
     INSERT INTO noticias
-    (titulo, texto, tipo, imagem)
+    (titulo, texto, tipo, plataforma)
     VALUES
-    ('${noticia.titulo}', '${noticia.texto}', '${noticia.tipo}', '${noticia.imagem}');
+    ('${noticia.titulo}', '${noticia.texto}', '${noticia.tipo}', '${noticia.plataforma}');
     `);
   }
 
   updateNoticia(noticia: any): Promise<any> {
+    var modificacao = new Date();
+
     return this.pizzasRepository.query(`
     UPDATE 
     noticias
@@ -84,7 +108,8 @@ export class PizzasService {
       titulo = '${noticia.titulo}',
       texto = '${noticia.texto}',
       tipo = '${noticia.tipo}',
-      imagem = '${noticia.imagem}'
+      plataforma = '${noticia.plataforma}',
+      modificacao = '${modificacao.getFullYear()}-${modificacao.getMonth()+1}-${modificacao.getDate()} ${modificacao.getHours()}:${modificacao.getMinutes()}:${modificacao.getSeconds()}'
     WHERE
     id = ${noticia.id};
     `);
@@ -100,12 +125,29 @@ export class PizzasService {
   }
 
   // USUARIOS
+  async findAllUsuarios(): Promise<any[]> {
+    const produtos = await this.pizzasRepository.query(`
+    SELECT
+      U.id,
+      U.nome,
+      U.senha,
+      F.id as funcao
+    FROM
+        usuarios U
+    INNER JOIN
+      funcoes F
+    ON
+      U.funcao = F.id
+    `);
+    return produtos;
+  }
+
   createUsuario(usuario: any): Promise<any> {
     return this.pizzasRepository.query(`
     INSERT INTO usuarios
-    (nome, funcao)
+    (nome, funcao, senha)
     VALUES
-    ('${usuario.nome}', '${usuario.funcao}');
+    ('${usuario.nome}', '${usuario.funcao}', '${usuario.senha}');
     `);
   }
 
@@ -115,7 +157,8 @@ export class PizzasService {
     usuarios
     SET
       nome = '${usuario.nome}',
-      funcao = '${usuario.funcao}'
+      funcao = '${usuario.funcao}',
+      senha = '${usuario.senha}'
     WHERE
     id = ${usuario.id};
     `);
@@ -131,6 +174,16 @@ export class PizzasService {
   }
 
   // Plataformas
+
+  async findAllTipoPlataformas(){
+    const tipos = await this.pizzasRepository.query(`
+    SELECT
+    *
+    FROM
+    tipo_plataformas
+    `);
+    return tipos;
+  }
 
   findAllPlataformas() {
     return this.pizzasRepository.query(`

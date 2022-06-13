@@ -13,6 +13,11 @@ import { PizzasService } from './pizzas.service';
 export class PizzasController {
   constructor(private readonly pizzasService: PizzasService) {}
 
+  @Post('login')
+  login(@Body() body: any) {
+    return this.pizzasService.login(body);
+  }
+
   @Get('all-noticias')
   findAllNoticias() {
     return this.pizzasService.findAllNoticias();
@@ -23,9 +28,23 @@ export class PizzasController {
     return this.pizzasService.findAllCards();
   }
 
+  @Get('all-reviews')
+  findAllReviews() {
+    return this.pizzasService.findAllReviews();
+  }
+  @Get('all-artigos')
+  findAllArtigos() {
+    return this.pizzasService.findAllArtigos();
+  }
+
   @Get('all-tipos-noticias')
-  findAllTipos() {
+  findAllTipoNoticias() {
     return this.pizzasService.findAllTipoNoticias();
+  }
+
+  @Get('all-tipos-plataformas')
+  findAllTipoPlataformas() {
+    return this.pizzasService.findAllTipoPlataformas();
   }
 
   // TEXTOS
