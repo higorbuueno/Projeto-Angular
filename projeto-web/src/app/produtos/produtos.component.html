@@ -10,6 +10,7 @@
             <th scope="col">id</th>
             <th scope="col">Título</th>
             <th scope="col">Tipo</th>
+            <th scope="col">Plataforma</th>
             <th scope="col">Texto</th>
           </tr>
         </thead>
@@ -19,6 +20,7 @@
             <th scope="row">{{ noticia.id }}</th>
             <td>{{ noticia.titulo }}</td>
             <td class="text-middle">{{verificarTipo(noticia.tipo)}}</td>
+            <td class="text-middle">{{verificarPlataforma(noticia.plataforma)}}</td>
             <td class="text-break">{{ noticia.texto.substring(0, 100) }}...</td>
           </tr>
         </tbody>
@@ -55,6 +57,15 @@
           </div>
 
           <div class="mb-4">
+            <p for="select-plataforma" class="form-label text-start">Cargo</p>
+            <select class="form-select" id="select-plataforma" formControlName="plataforma"
+            [ngClass]="{'invalid-select': formulario.get('plataforma')?.invalid && formularioEnviado}">
+              <option selected disabled>Selecione a função</option>
+              <option *ngFor="let plataforma of plataformas" [value]="plataforma.id">{{ plataforma.nome }}</option>
+            </select>
+          </div>
+
+          <div class="mb-4">  
             <p for="input-nome" class="form-label text-start">Texto</p>
             <textarea type="text" class="form-control" id="input-texto" formControlName="texto"
               [maxlength]="numeroCaracteres"

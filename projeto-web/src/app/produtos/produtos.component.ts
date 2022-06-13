@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Noticia } from '../shared/dto/noticia-dto';
 import { PizzasService } from '../shared/services/pizza.service';
@@ -13,7 +14,8 @@ export class ProdutosComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private pizzasService: PizzasService
+    private pizzasService: PizzasService,
+    private router: Router
   ) {}
 
   noticias: Noticia[] = [];
@@ -26,12 +28,16 @@ export class ProdutosComponent implements OnInit {
   // Tipos
   tipos: any[] = [];
 
+  // Plataformas
+  plataformas: any[] = [];
+
   // Formulário
   formulario: FormGroup = this.formBuilder.group({
     id: [null],
     titulo: [null, Validators.required],
     texto: [null, Validators.required],
     tipo: [null, Validators.required],
+    plataforma: [null, Validators.required],
     imagem: [null]
   });
 
@@ -39,12 +45,36 @@ export class ProdutosComponent implements OnInit {
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.verificarLogin();
     this.getAllTipos();
+    this.getAllPlataformas();
     this.getAllNoticias();
+  }
+
+  verificarLogin(){
+    var usuario: any = sessionStorage.getItem('usuario');
+    if(!usuario){
+      this.router.navigate(['login'])
+    } 
   }
 
   verificarTipo(id: number){
     return this.tipos.filter(tipo => tipo.id === id)[0].descricao
+  }
+
+  verificarPlataforma(id: number){
+    return this.plataformas.filter(plataforma => plataforma.id === id)[0].nome
+  }
+
+  getAllPlataformas() {
+    this.pizzasService.getAllPlataformas().subscribe(
+      (response) => {
+        this.plataformas = response;
+      },
+      (error) => {
+        this.toastr.error(error.error.text);
+      }
+    );
   }
 
   getAllNoticias() {
@@ -74,6 +104,7 @@ export class ProdutosComponent implements OnInit {
     this.formulario.controls['titulo'].setValue(produto.titulo);
     this.formulario.controls['tipo'].setValue(produto.tipo);
     this.formulario.controls['texto'].setValue(produto.texto);
+    this.formulario.controls['plataforma'].setValue(produto.plataforma);
   }
 
   onSave() {

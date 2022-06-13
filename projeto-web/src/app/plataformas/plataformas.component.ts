@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PizzasService } from '../shared/services/pizza.service';
 
 @Component({
   selector: 'app-plataformas',
   templateUrl: './plataformas.component.html',
-  styleUrls: ['./plataformas.component.css']
+  styleUrls: ['./plataformas.component.css'],
 })
 export class PlataformasComponent implements OnInit {
-
   constructor(
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private pizzasService: PizzasService
+    private pizzasService: PizzasService,
+    private router: Router
   ) {}
 
-  
   plataformas: any[] = [];
   marcas: any[] = [];
-  
+
   // Pagination
   p: number = 1;
 
@@ -34,20 +34,36 @@ export class PlataformasComponent implements OnInit {
     id: [null],
     nome: [null, Validators.required],
     tipo: [null, Validators.required],
-    marca: [null, Validators.required]
+    marca: [null, Validators.required],
   });
 
   // Verificação para ver se o formulário já foi enviado e poder formatá-lo
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.verificarLogin();
+    this.getAllTipos();
     this.getAllMarcas();
     this.getAllPlataformas();
-    this.getAllTipos();
   }
 
-  getAllTipos(){
-    this.pizzasService.getAllTipoNoticias().subscribe(
+  verificarLogin(){
+    var usuario: any = sessionStorage.getItem('usuario');
+    if(!usuario){
+      this.router.navigate(['login'])
+    } 
+  }
+
+  verificarTipo(id: number) {
+    return this.tipos.filter((tipo) => tipo.id === id)[0].descricao;
+  }
+
+  verificarMarca(id: number) {
+    return this.marcas.filter((tipo) => tipo.id === id)[0].nome;
+  }
+
+  getAllTipos() {
+    this.pizzasService.getAllTipoPlataformas().subscribe(
       (response) => {
         this.tipos = response;
       },
@@ -57,7 +73,7 @@ export class PlataformasComponent implements OnInit {
     );
   }
 
-  getAllMarcas(){
+  getAllMarcas() {
     this.pizzasService.getAllMarcas().subscribe(
       (response) => {
         this.marcas = response;
@@ -78,7 +94,6 @@ export class PlataformasComponent implements OnInit {
       }
     );
   }
-
 
   preencherCamposParaEdicao(plataforma: any) {
     this.formulario.controls['id'].setValue(plataforma.id);
@@ -168,5 +183,4 @@ export class PlataformasComponent implements OnInit {
       );
     }
   }
-
 }

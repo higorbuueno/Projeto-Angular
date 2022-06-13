@@ -74,6 +74,18 @@
         </a>
       </li>
       <li>
+        <a [routerLink]="'reviews'" [routerLinkActive]="'active'" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+          Reviews
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="'artigos'" [routerLinkActive]="'active'" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+          Artigos
+        </a>
+      </li>
+      <li>
         <a [routerLink]="'dashboard'" [routerLinkActive]="'active'" class="nav-link text-white">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Dashboard
@@ -138,17 +150,13 @@
       </li>
     </ul>
     <hr>
-    <div class="dropdown">
-      <a [routerLink]="'#'" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="dropdown" id="nome-usuario">
+      <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>mdo</strong>
+        <strong>Eu</strong>
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item" [routerLink]="'#'">New project...</a></li>
-        <li><a class="dropdown-item" [routerLink]="'#'">Settings</a></li>
-        <li><a class="dropdown-item" [routerLink]="'#'">Profile</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" [routerLink]="'#'">Sign out</a></li>
+        <li><a class="dropdown-item" (click)="logout()">Sair</a></li>
       </ul>
     </div>
   </div>

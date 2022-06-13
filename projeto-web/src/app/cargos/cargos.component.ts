@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PizzasService } from '../shared/services/pizza.service';
 
@@ -13,7 +14,8 @@ export class CargosComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private pizzasService: PizzasService
+    private pizzasService: PizzasService,
+    private router: Router
   ) {}
 
   cargos: any[] = [];
@@ -36,7 +38,15 @@ export class CargosComponent implements OnInit {
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.verificarLogin();
     this.getAllCargos();
+  }
+
+  verificarLogin(){
+    var usuario: any = sessionStorage.getItem('usuario');
+    if(!usuario){
+      this.router.navigate(['login'])
+    } 
   }
 
   getAllCargos() {

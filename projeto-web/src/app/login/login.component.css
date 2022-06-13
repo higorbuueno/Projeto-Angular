@@ -1,0 +1,15 @@
+h-100 {
+    height: 100% !important;
+}
+
+.invalid-login {
+    color: #e03838;
+}
+
+.invalid-login input {
+    border-color: #f25e5e;
+}
+
+#passwordhelp {
+    opacity: 70%;
+}

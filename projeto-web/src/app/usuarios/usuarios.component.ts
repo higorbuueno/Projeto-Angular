@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Funcao } from '../shared/dto/funcao-dto';
 import { Setor } from '../shared/dto/setor-dto';
@@ -15,7 +16,8 @@ export class UsuariosComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private router: Router
   ) {}
 
   usuarios: Usuario[] = [];
@@ -30,14 +32,23 @@ export class UsuariosComponent implements OnInit {
     id: [null],
     nome: [null, Validators.required],
     funcao: [null, Validators.required],
+    senha: [null, Validators.required],
   });
 
   // Verificação para ver se o formulário já foi enviado e poder formatá-lo
   formularioEnviado: boolean = false;
 
   ngOnInit(): void {
+    this.verificarLogin();
     this.loadCargos();
     this.loadUsuarios();
+  }
+
+  verificarLogin(){
+    var usuario: any = sessionStorage.getItem('usuario');
+    if(!usuario){
+      this.router.navigate(['login'])
+    } 
   }
 
   verificarCargo(id: number){
@@ -71,6 +82,7 @@ export class UsuariosComponent implements OnInit {
     console.log(usuario);
     this.formulario.controls['id'].setValue(usuario.id);
     this.formulario.controls['nome'].setValue(usuario.nome);
+    this.formulario.controls['senha'].setValue(usuario.senha);
     this.formulario.controls['funcao'].setValue(usuario.funcao);
   }
 
