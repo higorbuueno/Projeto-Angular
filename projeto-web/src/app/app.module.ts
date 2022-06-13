@@ -16,6 +16,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { PlataformasComponent } from './plataformas/plataformas.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { MarcasComponent } from './marcas/marcas.component';
+import { NgChartsModule } from 'ng2-charts';
 import { ArtigosComponent } from './artigos/artigos.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 import { LoginComponent } from './login/login.component';
@@ -43,7 +44,8 @@ import { LoginComponent } from './login/login.component';
     NgxPaginationModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({ progressBar: true }),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
