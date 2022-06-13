@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Chart } from 'node_modules/chart.js';
+import { PizzasService } from '../shared/services/pizza.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +11,11 @@ import { Chart } from 'node_modules/chart.js';
 export class DashboardComponent implements OnInit {
   @ViewChild('meuCanvas', { static: true }) 'elemento': ElementRef;
 
+  constructor(
+    private pizzasService: PizzasService,
+    private toastr: ToastrService
+  ) {}
+
   semana = [
     'Domingo',
     'Segunda-Feira',
@@ -16,17 +23,19 @@ export class DashboardComponent implements OnInit {
     'Quarta-Feira',
     'Quinta-Feira',
     'Sexta-Feira',
-    'Sábado'
-  ]
+    'Sábado',
+  ];
 
   qtyNoticias = [85, 72, 86, 81, 84, 86, 94, 60, 62, 65, 41, 58];
   qtyArtigos = [33, 38, 10, 93, 68, 50, 35, 29, 34, 2, 62, 4];
+  qtyReviews = [10, 20, 10, 50, 80, 30, 35, 29, 34, 2, 62, 4];
 
   ngOnInit() {
+    this.getInformacoesParaGrafico();
     this.loadChart();
   }
 
-  loadChart(){
+  loadChart() {
     new Chart(this.elemento.nativeElement, {
       type: 'line',
       data: {
@@ -36,16 +45,35 @@ export class DashboardComponent implements OnInit {
             data: this.qtyNoticias,
             borderColor: '#00AEFF',
             fill: false,
-            label: 'Noticias'
+            label: 'Noticias',
           },
           {
             data: this.qtyArtigos,
             borderColor: '#FFCC00',
             fill: false,
-            label: 'Artigos'
+            label: 'Artigos',
+          },
+          {
+            data: this.qtyReviews,
+            borderColor: '#59EB5E',
+            fill: false,
+            label: 'Reviews',
           },
         ],
-      }
+      },
     });
+  }
+
+  getInformacoesParaGrafico() {
+    this.pizzasService.getInformacoesParaGrafico().subscribe(
+      (response) => {
+        this.qtyArtigos = response.artigos;
+        this.qtyNoticias = response.noticias;
+        this.qtyReviews = response.reviews;
+      },
+      (error) => {
+        this.toastr.error(error.error.text);
+      }
+    );
   }
 }

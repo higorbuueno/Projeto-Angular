@@ -13,6 +13,10 @@ export class PizzasService {
     return this.http.post<any[]>('http://localhost:3000/api/login', body);
   }
 
+  getInformacoesParaGrafico(): Observable<any> {
+    return this.http.get<any>('http://localhost:3000/api/informacoes-grafico');
+  }
+
   getAll(): Observable<Noticia[]> {
     return this.http.get<Noticia[]>('http://localhost:3000/api/all-textos');
   }
