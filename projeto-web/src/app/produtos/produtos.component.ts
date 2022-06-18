@@ -23,7 +23,7 @@ export class ProdutosComponent implements OnInit {
   p: number = 1;
 
   // Tamanho do campo para edição
-  numeroCaracteres: number = 140;
+  numeroCaracteres: number = 350;
 
   // Tipos
   tipos: any[] = [];
