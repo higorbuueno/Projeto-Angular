@@ -26,25 +26,25 @@ export class HomeComponent implements OnInit {
 
   getAllCards(){
     this.pizzasService.getAllCards().subscribe(result => {
-      result.forEach(element => {
-        if (element.modificacao === null) {
-          var modificacao = element.modificacao
-          var ano = modificacao.substring(0,4);
-          var mes = modificacao.substring(5,7);
-          var dia = modificacao.substring(8,10);
-          var hora = modificacao.substring(11,13);
-          var minuto = modificacao.substring(14,16);
-          element.modificacao = `${dia}/${mes}/${ano}, ${hora}:${minuto} UTC`
-        } else {
-          var modificacao = element.criacao
-          var ano = modificacao.substring(0,4);
-          var mes = modificacao.substring(5,7);
-          var dia = modificacao.substring(8,10);
-          var hora = modificacao.substring(11,13);
-          var minuto = modificacao.substring(14,16);
-          element.modificacao = `${dia}/${mes}/${ano}, ${hora}:${minuto} UTC`
-        }
-      });
+      // result.forEach(element => {
+      //   if (element.modificacao === null) {
+      //     var modificacao = element.modificacao
+      //     var ano = modificacao.substring(0,4);
+      //     var mes = modificacao.substring(5,7);
+      //     var dia = modificacao.substring(8,10);
+      //     var hora = modificacao.substring(11,13);
+      //     var minuto = modificacao.substring(14,16);
+      //     element.modificacao = `${dia}/${mes}/${ano}, ${hora}:${minuto} UTC`
+      //   } else {
+      //     var modificacao = element.criacao
+      //     var ano = modificacao.substring(0,4);
+      //     var mes = modificacao.substring(5,7);
+      //     var dia = modificacao.substring(8,10);
+      //     var hora = modificacao.substring(11,13);
+      //     var minuto = modificacao.substring(14,16);
+      //     element.modificacao = `${dia}/${mes}/${ano}, ${hora}:${minuto} UTC`
+      //   }
+      // });
       this.cards = result;
     })
   }
