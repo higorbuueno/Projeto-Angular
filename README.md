@@ -1,5 +1,5 @@
 # Projeto em TypeScript
-Inicialmente desenvolvido para um trabalho para universidade.
+Inicialmente desenvolvido como um trabalho para universidade.
 
 # How to install
 We used Node v16.13.2 to develop this project.
