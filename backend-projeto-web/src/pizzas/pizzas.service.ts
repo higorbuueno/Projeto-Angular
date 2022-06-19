@@ -253,16 +253,16 @@ export class PizzasService {
     INNER JOIN
       marcas M
     ON
-      P.id = M.id;
+      P.marca = M.id;
     `);
   }
 
   createPlataforma(plataforma: any): Promise<any> {
     return this.pizzasRepository.query(`
     INSERT INTO plataformas
-    (nome, marca)
+    (nome, marca, tipo)
     VALUES
-    ('${plataforma.nome}');
+    ('${plataforma.nome}','${plataforma.marca}','${plataforma.tipo}');
     `);
   }
 
@@ -271,7 +271,10 @@ export class PizzasService {
     UPDATE 
     plataformas
     SET
-      nome = '${plataforma.nome}'
+      nome = '${plataforma.nome}',
+      marca = '${plataforma.marca}',
+      tipo = '${plataforma.tipo}'
+
     WHERE
     id = ${plataforma.id};
     `);
